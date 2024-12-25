@@ -13,7 +13,7 @@ const NavBar = () => {
                         </form>
                         <div className="service-box d-flex flex-column justify-content-center align-items-center">
                             <span className='text-black-50'>Горячая линия</span>
-                            <span className='fs-4'>+79163688896</span>
+                            <span className='fs-4'><a href="https://wa.me/79163688896?text=Здравствуйте!%20У%20меня%20есть%20вопрос." style={{color: "inherit", textDecoration: "none" }}>+79163688896</a></span>
                         </div>
                     </div>
                 </nav>

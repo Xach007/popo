@@ -1,22 +1,45 @@
 import React from 'react';
+import { useState } from "react";
 import "../styles/FooterSection.css";
 import { faAngleRight, faCopyright, faEnvelope, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 const FooterSection = () => {
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+
+    const validateEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    const handleSubmit = () => {
+      if (email.trim() === "") {
+        setError("Пожалуйста, введите ваш email!");
+      } else if (!validateEmail(email)) {
+        setError("Введите корректный email адрес!");
+      } else {
+        setError("");
+        alert("Спасибо! Ваш email успешно принят.");
+        setEmail("");
+      }
+    };
     const iconText = [
         {
             icon: faLocationDot,
-            text: "52, Sanct Piterburg "
+            text: "52, Sanct Piterburg ",
+            link: "https://maps.app.goo.gl/ZJGGL15ytNTMTUMMA"
         },
         {
             icon: faEnvelope,
-            text: "krasavchik22007@gmail.com"
+            text: "krokodil22007@gmail.com",
+            link: "https://mail.google.com/mail/?view=cm&to=krokodil22007@gmail.com&su=Приветствие&body=Здравствуйте,%20я%20хочу%20обсудить%20вопрос."
         },
         {
             icon: faPhone,
-            text: "+79163688888"
+            text: "+79163688896",
+            link: "https://wa.me/79163688896?text=Здравствуйте!%20У%20меня%20есть%20вопрос."
         },
     ];
 
@@ -51,15 +74,18 @@ const FooterSection = () => {
     const aboutUs = [
         {
             icon: faAngleRight,
-            text: "Проект"
+            text: "Проект",
+            link: "https://www.figma.com/design/wAUBw1v49CUCKA03Dp0DLk/сайт-по-настольному-теннису?node-id=99-818&t=JDHZgsaM9t3QdHa8-0"
         },
         {
             icon: faAngleRight,
-            text: "О нас"
+            text: "О нас",
+            link: "https://www.behance.net/1a25c9c8"
         },
         {
             icon: faAngleRight,
-            text: "Блог"
+            text: "Блог",
+            link: "https://rutube.ru/channel/49305230/"
         }
     ];
 
@@ -77,7 +103,7 @@ const FooterSection = () => {
                                 <p className='text-light'>Если у вас вопросы по товару или по другой темме. Вы всегда можете обратиться к нам. </p>
                                 {
                                     iconText.map((e, i) => (
-                                        <p key={i} className='text-light'><FontAwesomeIcon className='me-2' icon={e.icon} style={{ color: "#ffd333", }} /> {e.text}</p>
+                                        <p key={i} className='text-light'><a href={e.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}><FontAwesomeIcon className='me-2' icon={e.icon} style={{ color: "#ffd333", textDecoration: "none" }} />{e.text}</a></p>
                                     ))
                                 }
                             </div>
@@ -100,7 +126,12 @@ const FooterSection = () => {
                                 <ul className='list-unstyled'>
                                     {
                                         aboutUs.map((e, i) => (
-                                            <li className='text-light my-2'><FontAwesomeIcon className='me-2' icon={e.icon} /> {e.text}</li>
+                                            <li className='text-light my-2' key={i}>
+                                                <a href={e.link} className="text-decoration-none text-light">
+                                                    <FontAwesomeIcon className='me-2' icon={e.icon} />
+                                                    {e.text}
+                                                </a>
+                                            </li>
                                         ))
                                     }
                                 </ul>
@@ -111,8 +142,11 @@ const FooterSection = () => {
                                 <h4 className='text-light mb-2'>ПОДДЕРЖКА</h4>
                                 <p className='text-light'>Если вам нужен срочно ответ напиши те свой E-mail и наша поддрежка свяжется как можно бысрее.</p>
                                 <div className="input-group mb-3">
-                                    <input className='p-2 input-2' type="text" placeholder="Ваш E-mail" />
-                                    <button className="sign-btn">Оставить</button>
+                                    <input className='p-2 input-2' type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Ваш E-mail" />
+                                    <button className="sign-btn" onClick={handleSubmit}>Оставить</button>
+                                    {error && (
+                                        <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
+                                    )}
                                 </div>
                             </div>
                         </div>

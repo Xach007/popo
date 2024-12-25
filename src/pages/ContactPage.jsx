@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState}from 'react';
 import NavBar from '../components/NavBar';
 import SecNavBar from '../components/SecNavBar';
 import { useSelector } from 'react-redux';
@@ -17,21 +17,67 @@ const ContactPage = () => {
     const iconText = [
         {
             icon: faLocationDot,
-            text: "52, Piter Sanct Piterbyrg"
+            text: "52, Piter Sanct Piterbyrg",
+            link: "https://maps.app.goo.gl/ZJGGL15ytNTMTUMMA"
         },
         {
             icon: faEnvelope,
-            text: "krasavchik22007@gmail.com"
+            text: "Krokodil22007@gmail.com",
+            link: "https://mail.google.com/mail/?view=cm&to=krokodil22007@gmail.com&su=Приветствие&body=Здравствуйте,%20я%20хочу%20обсудить%20вопрос."
         },
         {
             icon: faPhone,
-            text: "+79163688888"
+            text: "+79163688896",
+            link: "https://wa.me/79163688896?text=Здравствуйте!%20У%20меня%20есть%20вопрос."
         },
     ];
 
     window.scrollTo({
         top: 0,
     });
+    const [name, setName] = useState("");       // Имя
+    const [email, setEmail] = useState("");     // E-mail
+    const [topic, setTopic] = useState("");     // Тема
+    const [message, setMessage] = useState(""); // Сообщение
+  
+    const handleButtonClick = () => {
+      // Проверим, что все поля заполнены
+      if (!name.trim()) {
+        alert("Пожалуйста, укажите ваше имя.");
+        return; // Прерываем выполнение функции
+      }
+  
+      if (!email.trim()) {
+        alert("Пожалуйста, укажите ваш email.");
+        return;
+      }
+  
+      // Простая проверка email на корректность
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("Пожалуйста, укажите корректный email.");
+        return;
+      }
+  
+      if (!topic.trim()) {
+        alert("Пожалуйста, укажите тему.");
+        return;
+      }
+  
+      if (!message.trim()) {
+        alert("Пожалуйста, напишите сообщение.");
+        return;
+      }
+  
+      // Если все поля заполнены и email корректен
+      alert(`Дорогой пользователь ${name} ваше сообщение отправлено! Мы свяжемся с вами по данной почте ${email} . Спасибо за образение.`);
+  
+      // Очистить все поля (обнуляем стейты)
+      setName("");
+      setEmail("");
+      setTopic("");
+      setMessage("");
+    };
 
     return (
         <>
@@ -48,19 +94,19 @@ const ContactPage = () => {
                                 <div className="content-1 p-4">
                                     <div className="row">
                                         <div className="col-lg-12">
-                                            <input className='w-100 p-2 mb-3' type="text" placeholder='Ваше имя' required />
+                                            <input className='w-100 p-2 mb-3' type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder='Ваше имя' required />
                                         </div>
                                         <div className="col-lg-12">
-                                            <input className='w-100 p-2 mb-3' type="email" placeholder='Ваш E-mail' required />
+                                            <input className='w-100 p-2 mb-3' type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Ваш E-mail' required />
                                         </div>
                                         <div className="col-lg-12">
-                                            <input className='w-100 p-2 mb-3' type="text" placeholder='Какая тема' required />
+                                            <input className='w-100 p-2 mb-3' type="text" value={topic} onChange={(e)=> setTopic(e.target.value)} placeholder='Какая тема' required />
                                         </div>
                                         <div className="col-lg-12">
-                                            <textarea className='w-100 p-2 mb-2' type="text" placeholder='Сообщение' required />
+                                            <textarea className='w-100 p-2 mb-2' type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder='Сообщение' required />
                                         </div>
                                     </div>
-                                    <input className='send-btn px-3 py-2' type="submit" value={"Отправить сообщение"} />
+                                    <input className='send-btn px-3 py-2' type='button' onClick={handleButtonClick}  value={"Отправить сообщение"} />
                                 </div>
                             </form>
                         </div>
@@ -71,7 +117,7 @@ const ContactPage = () => {
                             <div className="content-3 p-4">
                                 {
                                     iconText.map((e, i) => (
-                                        <p key={i} className='text-black-50'><FontAwesomeIcon className='me-2' icon={e.icon} style={{ color: "#ffd333", }} /> {e.text}</p>
+                                        <p key={i} className='text-black-50'><a href={e.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}><FontAwesomeIcon className='me-2' icon={e.icon} style={{ color: "#ffd333", textDecoration: "none" }} />{e.text}</a></p>
                                     ))
                                 }
                             </div>

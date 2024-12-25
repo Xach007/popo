@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import NavBar from '../components/NavBar';
 import SecNavBar from '../components/SecNavBar';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import "../styles/CartPage.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRectangleXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import FormatCurrency from '../FormatCurrency';
 import FooterSection from '../components/FooterSection';
 import Carts from '../components/Carts';
@@ -19,11 +19,14 @@ const CartPage = () => {
 
     const shipping = 650;
 
-    const dispatch = useDispatch();
 
     const checkoutActive = useRef(null);
     const checkProceed = useRef(null);
 
+    const handleSubmit = () => {
+        alert("Вы создали заказ!! Позже мы вам перезвоним для уточнения информации")
+    };
+    
     const checkActive = () => {
         if (cart.length === 0) {
             checkProceed.current.classList.add("disable");
@@ -33,10 +36,13 @@ const CartPage = () => {
         }
     }
 
+
     const closeCheck = () => {
         checkoutActive.current.classList.remove("checkActive");
+
     }
 
+    
     window.scrollTo({
         top: 0,
     });
@@ -104,7 +110,7 @@ const CartPage = () => {
                                         <h4>Платежный адрес</h4>
                                         <button onClick={closeCheck} className='close-check fs-4'><FontAwesomeIcon icon={faXmark} /></button>
                                     </div>
-                                    <form className='text-light mt-5'>
+                                    <form onSubmit={handleSubmit} className='text-light mt-5'>
                                         <div className="row">
                                             <div className="check-smbox d-flex justify-content-between mb-1">
                                                 <div className="col-lg-6 col-md-6">
@@ -130,7 +136,7 @@ const CartPage = () => {
                                                 <div className="col-lg-6 col-md-6">
                                                     <div className='d-flex flex-column'>
                                                         <label>Номер телефона</label>
-                                                        <input required className='input-text p-2' type='text' maxLength={9} placeholder='+79163688888' />
+                                                        <input required className='input-text p-2' type="number" tupe="tel" maxLength={9} placeholder='+79163688888' />
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,7 +150,7 @@ const CartPage = () => {
                                                 <div className="col-lg-6 col-md-6">
                                                     <div className='d-flex flex-column'>
                                                         <label>Дом</label>
-                                                        <input required className='input-text p-2' type="text" placeholder='52' />
+                                                        <input required className='input-text p-2' type="number" placeholder='52' />
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,22 +172,14 @@ const CartPage = () => {
                                                 <div className="col-lg-6 col-md-6">
                                                     <div className='d-flex flex-column'>
                                                         <label>Этаж</label>
-                                                        <input required className='input-text p-2' type="text" placeholder='6' />
+                                                        <input required className='input-text p-2' type="number" placeholder='6' />
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6 col-md-6">
                                                     <div className='d-flex flex-column'>
                                                         <label>Подьезд</label>
-                                                        <input required className='input-text p-2' type="text" placeholder='1'/>
+                                                        <input required className='input-text p-2' type="number" placeholder='1'/>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div className="check-box d-flex flex-column mb-1 mt-1">
-                                                <div className='mb-2'>
-                                                    <input type="checkbox" /> <span>Создать аккаунт</span>
-                                                </div>
-                                                <div>
-                                                    <input type="checkbox" /> <span>Сохранить данный аккаунт</span>
                                                 </div>
                                             </div>
                                             <input type='submit' className='check-btn2 p-3 w-100 fw-bold' value='Отправить' />
